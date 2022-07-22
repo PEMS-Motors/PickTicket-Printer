@@ -6,12 +6,19 @@ const sendEmail = require('../modules/email.js');
 const documentPrint = require('../events/print.js');
 const documentMove = require('../events/move.js');
 const path = require('path');
+// Production settings
 const hotFolderPath = config.hotFolder.MO;
 const coldFolderPath = config.coldFolder.MO;
+const safeFolderPath = config.safeFolder.MO;
 const printer = config.whsPrinters.MO;
+// Development settings
+const devhotFolderPath = config.devhotFolder.MO;
+const devcoldFolderPath = config.devcoldFolder.MO;
+const devsafeFolderPath = config.devsafeFolder.MO;
+const devprinter = config.devwhsPrinters.MO;
 
 module.exports = {
-    command_mo: function () {        
+    command_mi: function () {        
         var dirwatch = require("../modules/DirectoryWatcher.js");
         var startEmailTimer = sendEmail.command_sendEmail;
         
@@ -24,12 +31,17 @@ module.exports = {
         // you can monitor only a single folder and none of its child
         // directories by simply changing the recursive parameter to
         // to false
-        var Monitor = new dirwatch.DirectoryWatcher(hotFolderPath, true);
+        if (config.deployment.Production == 'true') {
+            var Monitor = new dirwatch.DirectoryWatcher(hotFolderPath, true);
+        }else{
+            var Monitor = new dirwatch.DirectoryWatcher(devhotFolderPath, true);
+        }
 
         // start the monitor and have it check for updates
         // every 6 seconds.
         Monitor.start(6000);
-
+        
+        /*
         // Log to the console when a file is removed
         Monitor.on("fileRemoved", function (filePath) {
             console.log("File Deleted: " + filePath);
@@ -46,6 +58,7 @@ module.exports = {
         });
 
         // Log to the console when a file is changed.
+
         Monitor.on("fileChanged", function (fileDetail, changes) {
             for (var key in changes) {
                 console.log("File Changed: " + fileDetail.fullPath);
@@ -55,22 +68,40 @@ module.exports = {
             }
 
         });
+        */
 
         // log to the console when a file is added.
         Monitor.on("fileAdded", function (fileDetail) {
             
+            // Production paths
             const hotPath = path.join(hotFolderPath + '\\' + fileDetail.fileName)
             const coldPath = path.join(coldFolderPath + '\\' + fileDetail.fileName)
+            const safePath = path.join(safeFolderPath + '\\' + fileDetail.fileName)
+
+            // Development paths
+            const devhotPath = path.join(devhotFolderPath + '\\' + fileDetail.fileName)
+            const devcoldPath = path.join(devcoldFolderPath + '\\' + fileDetail.fileName)
+            const devsafePath = path.join(devsafeFolderPath + '\\' + fileDetail.fileName)
 
             clearTimeout(globalTimer);
-            console.log('Just reset the Email timer back to 0');
-            console.log("File Name:" + fileDetail.fileName);
-            documentPrint.filePrint(hotFolderPath, fileDetail.fileName, printer);
-            documentMove.fileMove(hotPath, coldPath);
+            //console.log('Just reset the Email timer back to 0');
+            console.log("File Name:", fileDetail.fileName, ' Has just been added to hot folder!');
+            if (config.deployment.Production == 'true') {
+                documentPrint.filePrint(hotFolderPath, fileDetail.fileName, printer);
+                documentMove.fileMove(hotPath, coldPath, safePath);
+            }else{
+                documentPrint.filePrint(devhotFolderPath, fileDetail.fileName, devprinter);
+                documentMove.fileMove(devhotPath, devcoldPath, devsafePath);
+            }
             global.globalTimer = setTimeout(startEmailTimer, 1800000); // 30 min timer to trigger alert email
-            console.log('Just started a new 30m Timer!');
+            //console.log('Just started a new 30m Timer!');
         });
 
-        console.log("MO Scanning has started");
+        if (config.deployment.Production == 'true') {
+            console.log("MO Scanning has started in production enviroment!");
+        }else{
+            console.log("MO Scanning has started in development enviroment!");
+        }
+        
     }
 };

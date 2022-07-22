@@ -40,7 +40,8 @@ module.exports = {
         // start the monitor and have it check for updates
         // every 6 seconds.
         Monitor.start(6000);
-
+        
+        /*
         // Log to the console when a file is removed
         Monitor.on("fileRemoved", function (filePath) {
             console.log("File Deleted: " + filePath);
@@ -57,6 +58,7 @@ module.exports = {
         });
 
         // Log to the console when a file is changed.
+
         Monitor.on("fileChanged", function (fileDetail, changes) {
             for (var key in changes) {
                 console.log("File Changed: " + fileDetail.fullPath);
@@ -66,6 +68,7 @@ module.exports = {
             }
 
         });
+        */
 
         // log to the console when a file is added.
         Monitor.on("fileAdded", function (fileDetail) {
@@ -81,8 +84,8 @@ module.exports = {
             const devsafePath = path.join(devsafeFolderPath + '\\' + fileDetail.fileName)
 
             clearTimeout(globalTimer);
-            console.log('Just reset the Email timer back to 0');
-            console.log("File Name:" + fileDetail.fileName);
+            //console.log('Just reset the Email timer back to 0');
+            console.log("File Name:", fileDetail.fileName, ' Has just been added to hot folder!');
             if (config.deployment.Production == 'true') {
                 documentPrint.filePrint(hotFolderPath, fileDetail.fileName, printer);
                 documentMove.fileMove(hotPath, coldPath, safePath);
@@ -91,9 +94,14 @@ module.exports = {
                 documentMove.fileMove(devhotPath, devcoldPath, devsafePath);
             }
             global.globalTimer = setTimeout(startEmailTimer, 1800000); // 30 min timer to trigger alert email
-            console.log('Just started a new 30m Timer!');
+            //console.log('Just started a new 30m Timer!');
         });
 
-        console.log("MI Scanning has started");
+        if (config.deployment.Production == 'true') {
+            console.log("MI Scanning has started in production enviroment!");
+        }else{
+            console.log("MI Scanning has started in development enviroment!");
+        }
+        
     }
 };

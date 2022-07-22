@@ -84,6 +84,9 @@ module.exports = {
         "from": 'xxx', // Must be the email used for user account above
         "to": 'xxx, xxx' // To add more emails just use ,
     },
+    "logs": {
+        "MI":  "",
+    },
 
     // All sections below are for development and will not effect anything with production
 
@@ -114,11 +117,11 @@ module.exports = {
         "CT":  "Y:\\Print-Test\\08A",
         "MD":  "Y:\\Print-Test\\09A",
         "FL":  "Y:\\Print-Test\\10A",
-        "CSH": "E:\\CSH\\01A",
-        "EMW": "E:\\EMW\\01A"
+        "CSH": "Y:\\Print-Test\\CSH\\01A",
+        "EMW": "Y:\\Print-Test\\EMW\\01A"
     },
     "devcoldFolder": {
-        "MI":  "C:\\test",
+        "MI":  "Y:\\Print-Finished\\01A",
         "IL":  "Y:\\Print-Finished\\02A",
         "SC":  "Y:\\Print-Finished\\03A",
         "MO":  "Y:\\Print-Finished\\04A",
@@ -128,22 +131,22 @@ module.exports = {
         "CT":  "Y:\\Print-Finished\\08A",
         "MD":  "Y:\\Print-Finished\\09A",
         "FL":  "Y:\\Print-Finished\\10A",
-        "CSH": "Z:\\CSH\\01A-Processed",
-        "EMW": "Z:\\EMW\\01A-Processed"
+        "CSH": "Y:\\Print-Finished\\CSH\\01A",
+        "EMW": "Y:\\Print-Finished\\EMW\\01A"
     },
     "devsafeFolder": {
-        "MI":  "C:\\test\\copy",
-        "IL":  "Y:\\Print-Test\\02A",
-        "SC":  "Y:\\Print-Test\\03A",
-        "MO":  "Y:\\Print-Test\\04A",
-        "CA":  "Y:\\Print-Test\\05A",
-        "TX":  "Y:\\Print-Test\\06A",
-        "MN":  "Y:\\Print-Test\\07A",
-        "CT":  "Y:\\Print-Test\\08A",
-        "MD":  "Y:\\Print-Test\\09A",
-        "FL":  "Y:\\Print-Test\\10A",
-        "CSH": "E:\\CSH\\01A",
-        "EMW": "E:\\EMW\\01A"
+        "MI":  "Y:\\Print-Test-Copy\\01A",
+        "IL":  "Y:\\Print-Test-Copy\\02A",
+        "SC":  "Y:\\Print-Test-Copy\\03A",
+        "MO":  "Y:\\Print-Test-Copy\\04A",
+        "CA":  "Y:\\Print-Test-Copy\\05A",
+        "TX":  "Y:\\Print-Test-Copy\\06A",
+        "MN":  "Y:\\Print-Test-Copy\\07A",
+        "CT":  "Y:\\Print-Test-Copy\\08A",
+        "MD":  "Y:\\Print-Test-Copy\\09A",
+        "FL":  "Y:\\Print-Test-Copy\\10A",
+        "CSH": "Y:\\Print-Test-Copy\\CSH\\01A",
+        "EMW": "Y:\\Print-Test-Copy\\EMW\\01A"
     },
     "devwhsPrinters": {
         "MI":  `\\\\Owosso-DC-1\\MI-Sales-M3655`,
@@ -159,5 +162,8 @@ module.exports = {
         "TN":  `\\\\Owosso-DC-1\\MI-Sales-M3655`,
         "CSH": `\\\\Owosso-DC-1\\MI-Sales-M3655`,
         "EMW": `\\\\Owosso-DC-1\\MI-Sales-M3655`,
+    },
+    "devlogs": {
+        "MI":  `Y:\\Print-Finished\\log.txt`,
     },
 }
