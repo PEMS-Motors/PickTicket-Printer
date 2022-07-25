@@ -10,6 +10,13 @@ var startEmailTimer = sendEmail.command_sendEmail;
 global.globalTimer = setTimeout(startEmailTimer, 1800000); // 30 min timer to trigger alert email
 global.globalDay = new Date().getDay(); // Current day 0-6 (0 = sunday monday = 1)
 global.globalHours = new Date().getHours(); // Current hours of the 0-23  (0 = midnight 1am = 1)
+if (config.deployment.Production == 'true'){ 
+    global.logNormal = config.logs.normal;
+    global.logError = config.logs.error;
+}else{ 
+    global.logNormal = config.devlogs.normal;
+    global.logError = config.devlogs.error;
+}
 // Restart the timer after it reaches the end
 restartTimer = function () {
     global.globalTimer = setTimeout(startEmailTimer, 1800000); // 30 min timer to trigger alert email
@@ -33,6 +40,7 @@ function startMonitors(){
  
  // Log to console the actual path we are starting to scan then start 
  // To scan that folder after.
+
  if (config.liveLocation.MI == 'true'){
  console.log("Started to Monitor " + config.hotFolder.MI); mi.command_mi(0);}
  if (config.liveLocation.IL == 'true'){
