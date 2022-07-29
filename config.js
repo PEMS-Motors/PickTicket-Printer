@@ -2,7 +2,7 @@
 
 module.exports = {
     "deployment": {
-        "Production": "false"
+        "Production": false
     },
     "liveLocation": {
         // Enable warehouse means if the warehouse is active or has been shutdown (true / false)
